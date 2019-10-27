@@ -42,6 +42,11 @@ The issue of ticket counterfeiting leads to the fact that spectators cannot get 
 The share of fake tickets is on average 20%, as a result of which the profit not received by the organizers can reach hundreds of thousands of dollars per event. The annual loss of profit is estimated at $ 2-5 billion. (The Guardian).
 A significant problem in the US market is the long confirmation of the availability of free space after ordering (up to 24 hours), due to the lack of a unified system for monitoring the status of tickets.
 
+![Market](readme_images/market.png?raw=true "Market")
+
+![Problems](readme_images/problems.png?raw=true "Problems")
+
+
 ## Advantages of the proposed solution. ##
 For event organizers:
 <li> Increase profits by 20%
@@ -54,6 +59,13 @@ For event visitors:
 <li>  The ability to safely delegate a ticket (token) without financial loss
 <li>  Receiving bonuses from the organizer provided that the required number of tickets has been distributed
 
+![Advantages](readme_images/advantages.png?raw=true "Advantages")
+
+# Solution
+![Solution1](readme_images/solution1.png?raw=true "Solution1")
+
+![Solution2](readme_images/solution2.png?raw=true "Solution2")
+
 # Requirements
 <li>Solidity ^4.20
 <li> python 3.5+
@@ -65,15 +77,7 @@ For event visitors:
 
 # Solution
 
-![Market](readme_images/market.png?raw=true "Market")
 
-![Problems](readme_images/problems.png?raw=true "Problems")
-
-![Solution1](readme_images/solution1.png?raw=true "Solution1")
-
-![Solution2](readme_images/solution2.png?raw=true "Solution2")
-
-![Advantages](readme_images/advantages.png?raw=true "Advantages")
 
 # Team 
 
