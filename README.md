@@ -68,3 +68,5 @@ For event visitors:
 
 # Team 
 
+![Team](readme_images/team.jpg?raw=true "Team")
+
