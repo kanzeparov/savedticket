@@ -1,6 +1,7 @@
 package come.manager.direct.hackuniversity;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -13,6 +14,10 @@ import org.web3j.crypto.Sign;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -45,9 +50,49 @@ public class ImageActivity extends AppCompatActivity {
         Sign.SignatureData signature = Sign.signMessage(pas.getBytes(), credentials.getEcKeyPair());
 
 
+//        NetworkService.getInstance()
+//                .getJSONApi()
+//                .getPostWithID(1)
+//                .enqueue(new Callback<Post>() {
+//                    @Override
+//                    public void onResponse(@NonNull Call<Post> call, @NonNull Response<Post> response) {
+//                        Post post = response.body();
+//
+//                        textView.append(post.getId() + "\n");
+//                        textView.append(post.getUserId() + "\n");
+//                        textView.append(post.getTitle() + "\n");
+//                        textView.append(post.getBody() + "\n");
+//                    }
+//
+//                    @Override
+//                    public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
+//
+//                        textView.append("Error occurred while getting request!");
+//                        t.printStackTrace();
+//                    }
+//                });
+
         if(getIntent().getBooleanExtra("status",false)) {
-            Bitmap myBitmap = QRCode.from("123 " + signature.getR().toString() + " " + signature.getS().toString()).bitmap();
-            imageView.setImageBitmap(myBitmap);
+            NetworkService.getInstance()
+                    .getJSONApi()
+                    .getPostWithID(11)
+                    .enqueue(new Callback<Post>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Post> call, @NonNull Response<Post> response) {
+                            Post post = response.body();
+
+                            Bitmap myBitmap = QRCode.from(post.getSignature()).bitmap();
+                            imageView.setImageBitmap(myBitmap);
+                        }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Post> call, @NonNull Throwable t) {
+
+
+                            t.printStackTrace();
+                        }
+                    });
+
             //mageView.setImageResource(R.drawable.with);
         }
     }
