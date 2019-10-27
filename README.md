@@ -10,28 +10,6 @@
 - [Requirements](#requirements)
 - [Team](#team)
 
-<!-- <ol type="1" style="font-size: x-large;">
-<li> [Scheme] (#Repo-scheme)
-<li> [About](#about)
-<li> [Task: Extend the NuCypher Network](#task:-extend-the-nucypher-network)
-<li> [Solution](#solution)
-<ol type="a" style="font-size: large;">
-  <li> [User application](#user-application)
-  <li> [Homomorphic encryption](#homomorphic-encryption)
-  <li> [Fully Homomorphic Encryption](#fully-homomorphic-encryption)
-  <li> [Architecture](#a-hidden-pixel)
-</ol>
-<li> [Installation](#installation)
-<ol type="a" style="font-size: large;">
-  <li> [Frontend](#web-application)
-  <li> [Backend](#android-application)
-</ol>
-<li> [Finally](#finally)
-<li> [Team](#team)
-</ol> -->
-
-
-
 #   Repo scheme
 ```bash
 .
@@ -87,4 +65,15 @@ For event visitors:
 
 # Solution
 
+![Market](readme_images/market.png?raw=true "Market")
+
+![Problems](readme_images/problems.png?raw=true "Problems")
+
+![Solution1](readme_images/solution1.png?raw=true "Solution1")
+
+![Solution2](readme_images/solution2.png?raw=true "Solution2")
+
+![Advantages](readme_images/advantages.png?raw=true "Advantages")
+
 # Team 
+
