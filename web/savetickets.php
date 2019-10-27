@@ -7,43 +7,7 @@ $pin = $_POST['pin'];
 
 $database = new Database();
 $db = $database->getConnection();
-$query = "SELECT eth_address, smartcontract FROM ouchsu00_savetickets.access WHERE pin=".$pin;
-
-/*
-foreach ($db->query($query) as $row) {
-    $result['eth_address'] = $row['eth_address'];
-	$result['smartcontract'] = $row['smartcontract;
-} */
-
-$query = "SELECT ticket_id, eth_address, smartcontract FROM ouchsu00_savetickets.access WHERE pin=".$pin;
-$tickets = array();
-    
-    
-
-
-$url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=661584";
-$url1 = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=666560";
-$url2 = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=662815";
-//$data = array('session' => '123', 'id' => '661584');
-$options = array(
-  'http' => array(
-    'method'  => 'GET',
-    //'content' => json_encode( $data ),
-    'header'=>  "Content-Type: application/json\r\n" .
-                "Accept: application/json\r\n"
-    )
-);
-$context  = stream_context_create( $options );
-$result = file_get_contents( $url, false, $context );
-$event_data = json_decode($result);
-
-$result = file_get_contents( $url1, false, $context );
-$mock_data1 = json_decode($result);
-$result = file_get_contents( $url2, false, $context );
-$mock_data2 = json_decode($result);
-
-
-
+$query = "SELECT eth_address, smartcontract, event_img, event_dt, event, event_cat FROM ouchsu00_savetickets.access WHERE pin=".$pin;
 ?>
 <!doctype html>
 <html lang="en">
@@ -59,8 +23,8 @@ $mock_data2 = json_decode($result);
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
-  
-  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.2.1/dist/web3.min.js"></script>
   <script src="assets/js/config.js"></script>
   <script src="assets/js/smartcontract.js"></script>
   <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
@@ -93,10 +57,10 @@ $mock_data2 = json_decode($result);
         }
 		
 		function delegate_ticket(addr) {
-			//let addr = "0x71a5cd0ac4e89f1e7829de96d2ec163bfe5d2932";
-			let contract = openContract(addr);
-			delegate (contract, addr);
-			getStates(contract, addr);
+			let addr1 = "0xB1E0472C4027c1a929b8ba4DD50F21D61c6B54d3";
+			let contract = openContract(addr1);
+			delegate (contract, addr1);
+			//getStates(contract, addr1);
 		}
 
         function open_t(addr) {
@@ -136,12 +100,6 @@ $mock_data2 = json_decode($result);
             <a class="nav-link" href="javascript:void(0)">
               <i class="material-icons">mail</i>
               <p>Мои билеты</p>
-            </a>
-          </li>
-		  <li class="nav-item active  ">
-            <a class="nav-link" href="opentickets.php">
-              <i class="material-icons">drafts</i>
-              <p>Открытые билеты</p>
             </a>
           </li>
 		  <li class="nav-item active  ">
@@ -192,115 +150,40 @@ $mock_data2 = json_decode($result);
       <div class="content">
         <div class="container-fluid">
           <div class="row">
-		  
-		  <?php foreach ($db->query($query) as $row) {
+            
+            <?php foreach ($db->query($query) as $row) {
             $sm_ticket_id = $row['ticket_id'];
 			$sm_eth_addr = $row['eth_address'];
 			$sm_smartcontract = $row['smartcontract'];
-			
-			$url = "http://api.cultserv.ru/v4/subevents/get/?session=123&id=".$sm_ticket_id;
-
-//$data = array('session' => '123', 'id' => '661584');
-            $options = array(
-           'http' => array(
-    'method'  => 'GET',
-    //'content' => json_encode( $data ),
-    'header'=>  "Content-Type: application/json\r\n" .
-                "Accept: application/json\r\n"
-    )
-);
-$context  = stream_context_create( $options );
-$result = file_get_contents( $url, false, $context );
-$event_data = json_decode($result);
-			
-    
-      ?>
+			$event = $row['event'];
+			$event_img = $row['event_img'];
+			$event_cat = $row['event_cat'];
+			$event_dt = $row['event_dt'];
+            ?>
    
-		  
             <div  id="<?php  echo $sm_smartcontract; echo "---open"; ?>" class="col-xl-4 col-lg-12">
               <div class="card card-chart">
                 <div class="card-header card-header-success">
-                  <div class="" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $event_data->message->image;?>"></div>
+                  <div class="" id=""><img style="max-width:100%;" src="<?php echo $event_img;?>"></div>
                 </div>
                 <div class="card-body">
-                  <h4 class="card-title"><?php  echo $event_data->message->title; ?></h4>
-                  <p class="card-category"><?php echo $event_data->message->venue->title; ?></p>
+                  <h4 class="card-title"><?php  echo $event ?></h4>
+                  <p class="card-category"><?php echo $event_cat ?></p>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
-                    <i class="material-icons">access_time</i><?php  echo $event_data->message->date; ?> 
+                    <i class="material-icons">access_time</i><?php  echo $event_dt; ?> 
                   </div>
                 </div>
 				<!--<button onclick="addTicket();">оооо</button>
 				<button onclick="track();">llll</button>-->
 				<button id="<?php  echo $sm_smartcontract; echo "---open"; ?>" class="btn btn-primary btn-round" onclick='delegate_ticket("<?php  echo $sm_smartcontract;?>");'>Делегировать</button>
-				<a href="ticket-hide.pdf" target="_blank" class="btn btn-primary btn-round">Посмотреть</a>
-				<button id="<?php  echo $sm_smartcontract; echo "---open"; ?>" class="btn btn-primary btn-round" onclick='open_t("<?php  echo $sm_smartcontract;?>");'>Открыть</button>
-				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>	
+				<a href="#" class="btn btn-primary btn-round">Распечатать</a>
               </div>
             </div>
 			
-			<?php  } ?>
-			<!--<div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-success">
-                  <div class="ct-chart" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $mock_data1->message->image;?>"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title"><?php  echo $mock_data1->message->title; ?></h4>
-                  <p class="card-category"><?php echo $mock_data1->message->venue->title; ?></p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i><?php  echo $mock_data1->message->date; ?> 
-                  </div>
-                </div>
-				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Посмотреть</a>
-				<a href="#open" class="btn btn-primary btn-round">Открыть</a>
-				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>
-              </div>
-            </div>
-			<div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-success">
-                  <div class="ct-chart" id=""><img style="max-width:100%;" src="http://media.cultserv.ru/i/1200x800/<?php echo $mock_data2->message->image;?>"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title"><?php  echo $mock_data2->message->title; ?></h4>
-                  <p class="card-category"><?php echo $mock_data2->message->venue->title; ?></p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i><?php  echo $mock_data2->message->date; ?> 
-                  </div>
-                </div>
-				<a href="#delegate" class="btn btn-primary btn-round">Делегировать</a>
-				<a href="#open" class="btn btn-primary btn-round">Посмотреть</a>
-				<a href="#open" class="btn btn-primary btn-round">Открыть</a>
-				<a href="#back" class="btn btn-primary btn-round">Вернуть</a>
-              </div>
-            </div>
-			
-			<!-- for unsave --
-            <div class="col-xl-4 col-lg-12">
-              <div class="card card-chart">
-                <div class="card-header card-header-danger">
-                  <div class="ct-chart" id="completedTasksChart"></div>
-                </div>
-                <div class="card-body">
-                  <h4 class="card-title">Completed Tasks</h4>
-                  <p class="card-category">Last Campaign Performance</p>
-                </div>
-                <div class="card-footer">
-                  <div class="stats">
-                    <i class="material-icons">access_time</i> campaign sent 2 days ago
-                  </div>
-                </div>
-              </div>
-            </div> -->
-					
-			
+			<?php  } ?>  
+
           </div>
         </div>
       </div>
@@ -358,7 +241,7 @@ $event_data = json_decode($result);
 
         window_width = $(window).width();
          
-		addTicket(); 
+	
 		 
         $('.fixed-plugin a').click(function(event) {
           // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
