@@ -7,7 +7,7 @@
 - [Repo scheme](#repo-scheme)
 - [About](#about)
 - [Solution](#solution)
-- [Instalation](#instalation)
+- [Requirements](#requirements)
 - [Team](#team)
 
 <!-- <ol type="1" style="font-size: x-large;">
@@ -75,6 +75,15 @@ For event visitors:
 <li>  Guaranteed purchase of a genuine ticket
 <li>  The ability to safely delegate a ticket (token) without financial loss
 <li>  Receiving bonuses from the organizer provided that the required number of tickets has been distributed
+
+# Requirements
+<li>Solidity ^4.20
+<li> python 3.5+
+<ol type="a" style="font-size: small;">
+  <li> Brownie (and dependecies)
+  <li> Flask
+</ol>
+<li> Android SDK API 26
 
 # Solution
 
