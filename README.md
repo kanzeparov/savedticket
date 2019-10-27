@@ -6,8 +6,11 @@
 
 - [Repo scheme](#repo-scheme)
 - [About](#about)
+- [Solution](#solution)
+- [Instalation](#instalation)
+- [Team](#team)
 
-<ol type="1" style="font-size: x-large;">
+<!-- <ol type="1" style="font-size: x-large;">
 <li> [Scheme] (#Repo-scheme)
 <li> [About](#about)
 <li> [Task: Extend the NuCypher Network](#task:-extend-the-nucypher-network)
@@ -25,7 +28,7 @@
 </ol>
 <li> [Finally](#finally)
 <li> [Team](#team)
-</ol>
+</ol> -->
 
 
 
@@ -74,3 +77,5 @@ For event visitors:
 <li>  Receiving bonuses from the organizer provided that the required number of tickets has been distributed
 
 # Solution
+
+# Team 
