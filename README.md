@@ -4,6 +4,9 @@
 
 # Structure
 
+- [Repo scheme](#repo-scheme)
+- [About](#about)
+
 <ol type="1" style="font-size: x-large;">
 <li> [Scheme] (#Repo-scheme)
 <li> [About](#about)
