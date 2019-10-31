@@ -64,9 +64,12 @@ Our proposition is to represent a ticket as <b>unique burnable ERC-721</b> token
 2.  Each client who wants to buy a ticket should transfer money to the PayPal account of token issuer. Information about this payout is taken by the smart contract through ChainLink oracles from PayPal external adapter. Client takes an onwership of this token if he pays enough money.
 3.  If client doesn't want to visit an event and wants to sell a ticket, he can do it easily. He should find a buyer and delegate an ownership to him. Delegation function of the smart contract is activated only if appropriate transaction in PayPal approved. At the same time in case of a buyer, if you sent a money to the given PayPal account, it's guaranteed that token is delegeated to your.   
 4. Validity of the tokens should be checked by the ticket ditributor representatives (security staff on the entrance) when owner of the ticket comes to the event. Procedure of validation is following:
-<li> For token id (<code>tid</code>), user calculates signature <code><b>Sign</b>(sk, tid) = &sigma;</code>. <code>tid</code> and <code>&sigma;</code> are represented as QR-code.
-<li> Security staff should scan QR-code and get <code>tid</code> and <code>&sigma;'</code>, check <code><b>Verify</b>(tid, pk, &sigma;') = 1</code>. 
- 5. After that security should <b>burn</b> this token.
+
+* For token id (<code>tid</code>), user calculates signature <code><b>Sign</b>(sk, tid) = &sigma;</code>. <code>tid</code> and <code>&sigma;</code> are represented as QR-code.
+
+* Security staff should scan QR-code and get <code>tid</code> and <code>&sigma;'</code>, check <code><b>Verify</b>(tid, pk, &sigma;') = 1</code>. 
+  
+5. After that security should <b>burn</b> this token.
 
 # Requirements
 <li>Solidity ^4.20
