@@ -1,6 +1,7 @@
 # SaveTickets
 
 ## It's a monorepo for Android and Web apps, Smart Contracts and other utils.
+Read more detailed explanation of project [here](./Ticket.pdf).
 
 # Structure
 
@@ -54,10 +55,11 @@ For event visitors:
 <li>  Receiving bonuses from the organizer provided that the required number of tickets has been distributed
 
 # Solution
+![Solution](./TicketChainLink.001.png?raw=true "Solution")
 Each ticket is unique burnable ERC-721 token with some modifications. 
 
 Client can sell his token on the second market. Validity of the tokens should be checked by the ticket ditributor representatives (security staff on the entrance). Procedure of validation is following:
-<li> For token id (<code>tid</code>), <code><b>Sign</b>(sk, tid)</code>
+<li> For token id (<code>tid</code>), <code><b>Sign</b>(sk, tid) = &sigma;</code>
 
 # Requirements
 <li>Solidity ^4.20
