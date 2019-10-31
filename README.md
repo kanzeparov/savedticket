@@ -67,7 +67,7 @@ Each ticket is unique burnable ERC-721 token with some modifications.
 ![Solution1](readme_images/solution1.png?raw=true "Solution1")
 
 Client can sell his token on the second market. Validity of the tokens should be checked by the ticket ditributor representatives (security staff on the entrance). Procedure of validation is following:
-<li> For token id $`i=1 \dots N`$, where $`N`$ - number of seats provided by ticket distributor, <b>Sign</b>$`(sk_i, i)`$
+<li> For token id (<code>tid</code>), <code><b>Sign</b>(sk, tid)</code>
 
 ![Solution2](readme_images/solution2.png?raw=true "Solution2")
 
