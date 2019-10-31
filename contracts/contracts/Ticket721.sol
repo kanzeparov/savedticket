@@ -1,6 +1,7 @@
-pragma solidity ^0.4.20;
-
-
+pragma solidity ^0.4.24;
+// pragma solidity ^0.4.20;
+// import "chainlink/contracts/Chainlinked.sol";
+import "https://github.com/smartcontractkit/chainlink/evm/contracts/ChainlinkClient.sol";
 
 contract Ownable {
     address public owner;
@@ -469,11 +470,11 @@ contract MintableToken is ERC721Token, Ownable {
         _;
     }
 
-    function mint(address _to, uint256 _tokenId) public onlyOwner canMint {
+    function mint(address _to, uint256 _tokenId) public canMint {
         _mint(_to, _tokenId);
     }
 
-    function mintWithURI(address _to, uint256 _tokenId, string _uri) public onlyOwner canMint {
+    function mintWithURI(address _to, uint256 _tokenId, string _uri) public canMint {
         _mint(_to, _tokenId);
         super._setTokenURI(_tokenId, _uri);
     }
@@ -495,13 +496,13 @@ contract CappedToken is MintableToken {
         cap = _cap;
     }
 
-    function mint(address _to, uint256 _tokenId) onlyOwner canMint public {
+    function mint(address _to, uint256 _tokenId) canMint public {
         require(totalSupply().add(1) <= cap);
 
         return super.mint(_to, _tokenId);
     }
 
-    function mintWithURI(address _to, uint256 _tokenId, string _uri) onlyOwner canMint public {
+    function mintWithURI(address _to, uint256 _tokenId, string _uri) canMint public {
         require(totalSupply().add(1) <= cap);
 
         return super.mintWithURI(_to, _tokenId, _uri);
@@ -512,13 +513,39 @@ contract CappedToken is MintableToken {
 
 
 contract Token is ERC721Token , CappedToken, BurnableToken {
+    // uint256 constant private ORACLE_PAYMENT = 1 * LINK;
+    
+     mapping (address => bool) internal isPaid;
+    
+    event RequestGetPayoutFulfilled(
+        bytes32 indexed requestId
+     );
     
     function Token()
         public
         payable
         ERC721Token('Leningrad', 'LND')
-        CappedToken(1000) {}
+        CappedToken(1000) {
+            setPublicChainlinkToken();
+        }
     
+    function requestGetPayout(address _oracle, string _jobId, bytes32 _payout_id)
+        public
+    {
+        Chainlink.Request memory req = buildChainlinkRequest(stringToBytes32(_jobId), this, this.fulfillGetPayout.selector);
+        // req.add("get", "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD");
+        run.add("method", "getPayout");
+        run.add("payout_id", _payout_id);
+        sendChainlinkRequestTo(_oracle, req, ORACLE_PAYMENT);
+    }
+    
+    function fulfillGetPayout(bytes32 _requestId, bool _status, address _buyer)
+        public
+        recordChainlinkFulfillment(_requestId)
+    {
+        emit RequestGetPayoutFulfilled(_requestId, _price);
+        isPaid[_buyer] = _status;
+    }
     
     function setTokenURI(uint256 _tokenId, string _uri) external onlyOwnerOf(_tokenId) {
         return super._setTokenURI(_tokenId, _uri);
@@ -528,8 +555,9 @@ contract Token is ERC721Token , CappedToken, BurnableToken {
         return super.transferFrom(msg.sender,_to,_tokenId);
     }
     
-    function createToken(address _to,uint256 _tokenId, string _uri) public onlyOwner {
-        return mintWithURI(_to,_tokenId,_uri);
+    function createToken(uint256 _tokenId, string _uri) public {
+        require(isPaid[msg.sender]);
+        
+        return mintWithURI(msg.sender,_tokenId,_uri);
     }
-    
 }
